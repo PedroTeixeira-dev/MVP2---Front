@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const CadastroS = styled.div`
-width: 600px;
+width: 100%;
 display: flex;
 flex-direction: column;
 justify-content: center;

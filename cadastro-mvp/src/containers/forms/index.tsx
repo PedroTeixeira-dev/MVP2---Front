@@ -5,7 +5,6 @@ import FormS from "./style"
 const Forms = () => {
     return (
         <FormS>
-            <Login/>
             <Cadastro/>
         </FormS>
     )
