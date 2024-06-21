@@ -1,7 +1,6 @@
 import { useState } from "react"
 import CadastroS from "./style"
 
-
 const Cadastro = () => {
 
     const [username, setUsername] = useState("")
@@ -15,8 +14,6 @@ const Cadastro = () => {
 
     const handleSubmit = (event: { preventDefault: () => void }) => {
         event.preventDefault()
-
-        console.log("Dados de Cadastro: ", username, name, estado, cidade, logradouro, number, complemento)
 
         setUsername("");
         setName("");
@@ -63,6 +60,45 @@ const Cadastro = () => {
 
     }
 
+    const createCustumer = async (username: string, name: string, cep: string, estado: string, cidade: string, logradouro: string, number: string, complemento: string) => {
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('name', name);
+        formData.append('cep', cep);
+        formData.append('estado', estado);
+        formData.append('cidade', cidade);
+        formData.append('logradouro', logradouro);
+        formData.append('number', number);
+        formData.append('complemento', complemento);
+
+        let url = 'http://0.0.0.0:8000';
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+          });
+          const result = await response.json();
+          if (response.ok) {
+            console.log('Success:', result);
+            alert('Customer created successfully');
+          } else {
+            console.error('Error:', result);
+            alert('Error creating customer');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error creating customer');
+        }
+      };
+
+
+    const enviaDados = () => {
+        alert("dados enviados")
+        console.log("dadaos enviados para o back end: ",username, name, cep, estado, cidade, logradouro, number, complemento)
+        createCustumer(name, username, cep, estado, cidade, logradouro, number, complemento)
+    }
+
+
     return (
         <CadastroS>
             <h2>Cadastro</h2>
@@ -104,7 +140,7 @@ const Cadastro = () => {
                     <label>Complemento (opcional)</label>
                     <input type="text" value={complemento} onChange={(e) => setComplemento(e.target.value)} />
 
-                    <button type="submit">Cadastrar</button>
+                    <button type="submit" onClick={enviaDados} >Cadastrar</button>
                 </form>
         </CadastroS>
     )
