@@ -12,8 +12,10 @@ const Cadastro = () => {
     const [number, setNumber] = useState("")
     const [complemento, setComplemento] = useState("")
 
-    const handleSubmit = (event: { preventDefault: () => void }) => {
+    const handleSubmit = async (event: { preventDefault: () => void }) => {
         event.preventDefault()
+
+        await enviaDados();
 
         setUsername("");
         setName("");
@@ -60,22 +62,35 @@ const Cadastro = () => {
 
     }
 
-    const createCustumer = async (username: string, name: string, cep: string, estado: string, cidade: string, logradouro: string, number: string, complemento: string) => {
-        const formData = new FormData();
-        formData.append('username', username);
-        formData.append('name', name);
-        formData.append('cep', cep);
-        formData.append('estado', estado);
-        formData.append('cidade', cidade);
-        formData.append('logradouro', logradouro);
-        formData.append('number', number);
-        formData.append('complemento', complemento);
+    const createCustomer = async (
+        username: string,
+        name: string,
+        cep: string,
+        estado: string,
+        cidade: string,
+        logradouro: string,
+        number: string,
+        complemento: string
+      ) => {
+        const formData = {
+          cep: cep,
+          city: cidade,
+          complement: complemento,
+          email: username,
+          name: name,
+          number: number,
+          street: logradouro,
+          uf: estado
+        };
 
-        let url = 'http://0.0.0.0:8000';
+        let url = 'http://0.0.0.0:8000/api/custumers';
         try {
           const response = await fetch(url, {
             method: 'POST',
-            body: formData
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
           });
           const result = await response.json();
           if (response.ok) {
@@ -94,14 +109,13 @@ const Cadastro = () => {
 
     const enviaDados = () => {
         alert("dados enviados")
-        console.log("dadaos enviados para o back end: ",username, name, cep, estado, cidade, logradouro, number, complemento)
-        createCustumer(name, username, cep, estado, cidade, logradouro, number, complemento)
+        console.log("dados enviados para o back end: ", username, name, cep, estado, cidade, logradouro, number, complemento)
+        createCustomer(username, name, cep, estado, cidade, logradouro, number, complemento)
     }
-
 
     return (
         <CadastroS>
-            <h2>Cadastro</h2>
+            <h2>Cadastro de cliente</h2>
                 <form onSubmit={handleSubmit}>
                     <label>E-mail</label>
                     <input type="text"
@@ -140,7 +154,7 @@ const Cadastro = () => {
                     <label>Complemento (opcional)</label>
                     <input type="text" value={complemento} onChange={(e) => setComplemento(e.target.value)} />
 
-                    <button type="submit" onClick={enviaDados} >Cadastrar</button>
+                    <button type="submit">Cadastrar</button>
                 </form>
         </CadastroS>
     )
