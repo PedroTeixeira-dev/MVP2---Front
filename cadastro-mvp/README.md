@@ -1,3 +1,10 @@
+Runing with docker:
+
+1- docker build -t my-react-app .
+2- docker run -p 3000:80 my-react-app
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

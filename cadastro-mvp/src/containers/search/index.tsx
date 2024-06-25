@@ -24,6 +24,14 @@ const Search = () => {
         setEditing(!editing)
         handleEditing()
         alert("Dados salvos")
+        setEmail("");
+        setNome("");
+        setCep("");
+        setEstado("");
+        setCidade("");
+        setLogradouro("");
+        setNumero("");
+        setComplemento("");
     }
 
     const handleSearch = async () => {
@@ -44,33 +52,41 @@ const Search = () => {
             setNumero(data.number);
             setComplemento(data.complement);
 
+            console.log(data)
+
             alert('Dados do cliente encontrados');
           } catch (error) {
             console.error('Error fetching customer data:', error);
             alert('Erro ao procurar dados do cliente');
           }
-
       };
 
     const handleDeleting = async () => {
-        const formData = {
-            email: searchEmail
-        }
 
-        let url = 'http://0.0.0.0:8000/api/custumers'
+        let url = `http://0.0.0.0:8000/api/custumers/${searchEmail}`
         try {
             const response = await fetch(url, {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(formData)
+              }
             });
             const result = await response.json();
+
             if (response.ok) {
-              console.log('Success:', result);
-              alert('Customer deleted successfully');
-            } else {
+
+            console.log('Success:', result);
+            alert('Customer deleted successfully');
+            setEmail("");
+            setNome("");
+            setCep("");
+            setEstado("");
+            setCidade("");
+            setLogradouro("");
+            setNumero("");
+            setComplemento("");
+            }
+            else {
               console.error('Error:', result);
               alert('Error deleting customer');
             }
@@ -118,7 +134,6 @@ const Search = () => {
     }
 
     const handleDelete = () => {
-        alert("cliente deletado")
         handleDeleting()
     }
 
@@ -133,14 +148,14 @@ return (
     <button onClick={handleSearch} >Procurar</button>
     </div>
     <div>
-        <input type="text" disabled={editing}  onChange={(e)=> setEmail(e.target.value)} placeholder="email" />
-        <input type="text" disabled={editing} onChange={(e)=> setNome(e.target.value)} placeholder="Nome" />
-        <input type="text" disabled={editing} onChange={(e)=> setCep(e.target.value)} placeholder="CEP" />
-        <input type="text" disabled={editing} onChange={(e)=> setEstado(e.target.value)} placeholder="Estado" />
-        <input type="text" disabled={editing} onChange={(e)=> setCidade(e.target.value)} placeholder="Cidade" />
-        <input type="text" disabled={editing} onChange={(e)=> setLogradouro(e.target.value)} placeholder="Logradouro" />
-        <input type="text" disabled={editing} onChange={(e)=> setNumero(e.target.value)} placeholder="Número" />
-        <input type="text" disabled={editing} onChange={(e)=> setComplemento(e.target.value)} placeholder="Complemento" />
+        <input type="text" disabled={editing} value={email} onChange={(e)=> setEmail(e.target.value)} placeholder="email" />
+        <input type="text" disabled={editing} value={nome} onChange={(e)=> setNome(e.target.value)} placeholder="Nome" />
+        <input type="text" disabled={editing} value={cep} onChange={(e)=> setCep(e.target.value)} placeholder="CEP" />
+        <input type="text" disabled={editing} value={estado} onChange={(e)=> setEstado(e.target.value)} placeholder="Estado" />
+        <input type="text" disabled={editing} value={cidade} onChange={(e)=> setCidade(e.target.value)} placeholder="Cidade" />
+        <input type="text" disabled={editing} value={logradouro} onChange={(e)=> setLogradouro(e.target.value)} placeholder="Logradouro" />
+        <input type="text" disabled={editing} value={numero} onChange={(e)=> setNumero(e.target.value)} placeholder="Número" />
+        <input type="text" disabled={editing} value={complemento} onChange={(e)=> setComplemento(e.target.value)} placeholder="Complemento" />
         {editing ? <button className="edit--btn" onClick={handleEdit} >Editar</button> : <button className="edit--btn" onClick={handleSave} >Salvar</button>}
         <button className="del--btn" onClick={handleDelete} >Deletar</button>
     </div>
