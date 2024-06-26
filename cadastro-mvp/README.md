@@ -1,12 +1,14 @@
 
-Project: Front-end for a Customer Registration Microservice
+# Project: Front-end for a Customer Registration Microservice
 
-Objective: The objective is to create a user-friendly interface for customer registration, search, editing, and deletion functions, as well as to enable communication with the back-end, which can be accessed via the link: https://github.com/PedroTeixeira-dev/back-end-MVP2
+# Objective: The objective is to create a user-friendly interface for customer registration, search, editing, and deletion functions, as well as to enable communication with the back-end, which can be accessed via the link: https://github.com/PedroTeixeira-dev/back-end-MVP2
 
-Runing with docker:
+## Runing with docker:
 
-1- docker build -t my-react-app .
-2- docker run -p 3000:80 my-react-app
+1- 
+### `docker build -t my-react-app .`
+2- 
+### `docker run -p 3000:80 my-react-app`
 
 
 # Getting Started with Create React App
